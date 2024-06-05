@@ -1,0 +1,37 @@
+version: "3"
+services:
+  postgres:
+    image: 'postgres:13.1-alpine'
+    hostname: db
+#    networks:
+#      - shared-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data #mapping our volume with volume in container
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=master
+
+  students-app:
+    build: .
+    #    image: localhost:5000/students-app
+    restart: on-failure
+#    networks:
+#      - shared-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=master
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - hello-service.url=http://hello-app:8030/api/hello
+#Creating Volumes
+volumes:
+  postgres_data:
+
+#networks:
+#  shared-network:
+#    external: true
+
