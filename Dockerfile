@@ -1,5 +1,5 @@
 # Используем образ Maven для сборки приложения
-FROM maven as build
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
@@ -8,7 +8,7 @@ COPY src ./src
 
 RUN mvn clean package
 
-FROM openjdk:17-alpine
+FROM eclipse-temurin:17
 
 # Устанавливаем рабочую директорию
 WORKDIR /app

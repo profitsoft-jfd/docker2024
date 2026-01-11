@@ -53,7 +53,7 @@ public class StudentController {
     }
 
 
-    @PostMapping("_search")
+    @PostMapping("/_search")
     public PageableStudentDto search(@RequestBody PageableSearchStudentDto searchDto) {
         return studentService.search(searchDto);
     }
